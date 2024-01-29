@@ -1,0 +1,47 @@
+#lists {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.list {
+    flex-basis: 350px;
+}
+
+.list__list {
+    list-style: none;
+    padding-inline-start: 0;
+    margin-block-end: 0;
+}
+
+.task__title {
+    text-decoration: none;
+}
+
+.task__title:hover {
+    text-decoration: underline;
+}
+
+.list__item {
+    border: 2px solid var(--pico-muted-border-color);
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.list__item dialog {
+    cursor: auto;
+}
+
+.list__add-button {
+    width: 100%;
+    text-align: start;
+    margin-bottom: calc(var(--pico-typography-spacing-vertical) * .25);
+    color: var(--pico-form-element-placeholder-color);
+    --pico-background-color: revert;
+    cursor: text;
+}
+
+.list__add-button:is(:hover, :active, :focus) {
+    --pico-background-color: revert;
+}

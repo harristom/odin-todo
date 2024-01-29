@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/15efbb2579.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@next/css/pico.min.css" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <script src="index.js" type="module"></script>
+    <title>To-da!</title>
+</head>
+
+<body>
+    <main class="container">
+        <h1>To-da!</h1>
+        <template id="list-template">
+            <article class="list">
+                <header>
+                    <h2 class="list__title"></h2>
+                </header>
+                <ol class="list__list">
+                </ol>
+                <button type="button" class="list__add-button list__item">New task</button>
+            </article>
+        </template>
+        <template id="task-template">
+            <li class="task list__item">
+                <a href="" class="task__title"></a>
+                <dialog class="task__dialog animate__animated animate__fadeIn animate__faster">
+                    <article>
+                        <header>
+                            <h2 class="task__dialog-title"></h2>
+                        </header>
+                        <p class="task__dialog-description"></p>
+                        <footer>
+                            <button type="button" class="task__dialog-close">Close</button>
+                        </footer>
+                    </article>
+                </dialog>
+            </li>
+        </template>
+        <dialog class="new-task animate__animated animate__fadeIn animate__faster">
+            <article>
+                <header>
+                    <h2>Add task</h2>
+                </header>
+                <form class="new-task__form">
+                    <label>
+                        Title
+                        <input type="text" name="title">
+                    </label>
+                    <label>
+                        Description
+                        <textarea name="description" rows="5"></textarea>
+                    </label>
+                    <label>
+                        Due date
+                        <input type="datetime-local" name="duedate">
+                    </label>
+                    <button>Save</button>
+                    <button type="button" class="new-task__cancel secondary">Cancel</button>
+                </form>
+            </article>
+        </dialog>
+        <section id="lists">
+            <article id="new-list" class="list">
+                <form id="new-list-form">
+                    <input type="text" name="title" placeholder="List title">
+                    <button>Add</button>
+                </form>
+            </article>
+        </section>
+    </main>
+</body>
+
+</html>
