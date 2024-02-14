@@ -56,9 +56,41 @@ function makeTask(task) {
         e.preventDefault();
         e.currentTarget.closest('.task').querySelector('.task__dialog').showModal();
     });
+    // Add event listeners for drag and drop
+    const handle = li.querySelector('.task__handle');
+    handle.addEventListener('mousedown', () => li.setAttribute('draggable', 'true'));
+    handle.addEventListener('mouseup', () => li.removeAttribute('draggable'));
+    li.addEventListener('dragstart', dragStart);
+    li.addEventListener('dragenter', dragEnter);
+    li.addEventListener('dragend', dragEnd);
+    li.addEventListener('drop', (e) => e.preventDefault());
+    li.addEventListener('dragover', (e) => e.preventDefault());
     // Store task object ref with element
     li.task = task;
     return li;
+}
+
+function dragStart(e) {
+    // Delay making any change to drag item appearance until after the browser has taken a picture of the element
+    requestAnimationFrame(() => {
+        this.id = 'dragged';
+    });
+}
+
+function dragEnter(e) {
+    const dragged = document.getElementById('dragged');
+    const movingUp = this.getBoundingClientRect().top < dragged.getBoundingClientRect().top;
+    if (movingUp) {
+        this.before(dragged);
+    } else {
+        this.after(dragged);
+    }
+}
+
+function dragEnd(e) {
+    const dragged = document.getElementById('dragged');
+    dragged.removeAttribute('id');
+    dragged.removeAttribute('draggable');
 }
 
 // Create some sample tasks
