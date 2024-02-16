@@ -58,8 +58,8 @@ function makeTask(task) {
     });
     // Add event listeners for drag and drop
     const handle = li.querySelector('.task__handle');
-    handle.addEventListener('mousedown', () => li.setAttribute('draggable', 'true'));
-    handle.addEventListener('mouseup', () => li.removeAttribute('draggable'));
+    handle.addEventListener('pointerdown', () => li.setAttribute('draggable', 'true'));
+    handle.addEventListener('pointerup', () => li.removeAttribute('draggable'));
     li.addEventListener('dragstart', dragStart);
     li.addEventListener('dragenter', dragEnter);
     li.addEventListener('dragend', dragEnd);
