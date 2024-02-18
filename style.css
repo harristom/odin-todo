@@ -32,14 +32,16 @@ header {
 input,
 .input,
 button,
-.button {
+.button,
+textarea {
     padding: 5px 10px;
     font: inherit;
     border-radius: 3px;
 }
 
 input,
-.input {
+.input,
+textarea {
     border: 1px solid rgb(182, 182, 182);
     color: inherit;
 }
@@ -51,15 +53,32 @@ button,
     color: white;
     border: none;
     font-size: 0.95em;
+
     &:hover {
         background: rgb(51, 163, 255);
     }
 }
 
-
 [type=text]::placeholder {
     font: inherit;
     color: var(--placeholder-text-color);
+}
+
+p {
+    margin-block: 1em;
+}
+
+dialog {
+    margin: 20vh auto;
+    padding: 20px;
+    border: none;
+    font-weight: 400;
+    border-radius: 10px;
+    min-width: 90%;
+
+    &::backdrop {
+        backdrop-filter: blur(3px);
+    }
 }
 
 #lists {
@@ -69,12 +88,20 @@ button,
     gap: 10px;
 }
 
+#new-list-form {
+    [type=text] {
+        flex-grow: 1;
+        min-width: 3em;
+    }
+    display: flex;
+    gap: 5px;
+}
+
 .list {
-    /* Windows previews over 300px look rough as */
-    flex-basis: 300px;
+    width: 100%;
     background-color: var(--list-bg);
-    padding: 10px 20px 10px 20px;
-    border-radius: 20px;
+    padding: 20px;
+    border-radius: 10px;
 }
 
 .list__title {
@@ -90,24 +117,15 @@ button,
     box-shadow: 3px 3px 5px -3px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     padding: 5px 10px;
-    font: inherit;
     font-weight: 500;
-    margin-bottom: 5px;
+    margin-bottom: 7px;
 }
 
 .task {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: relative;
-    z-index: 2;
     user-select: none;
-}
-
-.task:hover {
-    /* box-shadow: 0px 0px 15px 5px rgba(184, 227, 255, 1); */
-    z-index: 1;
-    position: relative;
 }
 
 .task__handle {
@@ -118,19 +136,34 @@ button,
 .task__title {
     color: inherit;
     text-decoration: none;
+    margin-inline-end: 1.5em;
 }
 
 .list__add-button {
     width: 100%;
     cursor: text;
-    box-shadow: none;
     color: var(--placeholder-text-color);
     text-align: start;
     font-weight: 400;
+    margin-bottom: 0px;
 
     &:hover {
         background: white;
     }
+}
+
+.new-task__label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.new-task__input {
+    display: block;
+    width: 100%;
+}
+
+.new-task__title {
+    margin-bottom: 10px;
 }
 
 #dragged {
@@ -138,4 +171,18 @@ button,
     background-color: var(--color);
     border-color: var(--color);
     color: var(--color);
+}
+
+@media screen and (min-width: 600px) {
+    /* Tablet+ */
+
+    .list {
+        /* Drag/drop previews larger than this look rough on Windows */
+        max-width: 300px;
+    }
+
+    dialog {
+        min-width: 500px;
+    }
+
 }

@@ -93,14 +93,6 @@ function dragEnd(e) {
     dragged.removeAttribute('draggable');
 }
 
-// Create some sample tasks
-const list = new List("List 1");
-list.addTasks(
-    new Task('Wash the car', 'scrub scrub'),
-    new Task('Mend the bike'),
-    new Task('Destroy the world')
-)
-
 // Add event listener for new list form
 document.querySelector('#new-list-form').addEventListener('submit', (e) => {
     e.preventDefault();
@@ -120,6 +112,19 @@ document.querySelector('#new-list-form').addEventListener('submit', (e) => {
 document.querySelector('.new-task__form').addEventListener('submit', submitNewTask);
 document.querySelector('.new-task__cancel').addEventListener('click', e => e.currentTarget.closest('dialog').close());
 
+// Create some sample tasks
+const list = new List("List 1");
+list.addTasks(
+    new Task('Wash the car', 'scrub scrub'),
+    new Task('Mend the bike'),
+    new Task('Destroy the world')
+);
+
 // Add the example list to the page
 const listEl = makeList(list);
 document.querySelector('#new-list').before(listEl);
+
+// Restrict due date to be in future
+document.querySelectorAll('[name="duedate"]').forEach(datetimeInput => {
+    datetimeInput.setAttribute('min', new Date().toLocaleString('sv').replace(' ', 'T').slice(0, -3));
+});

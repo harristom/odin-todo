@@ -38,25 +38,25 @@
         </template>
         <section id="lists">
             <article id="new-list" class="list">
-                <form id="new-list-form">
-                    <input type="text" name="title" placeholder="List title">
-                    <button>Add</button>
+                <form id="new-list-form" class="new-list-form">
+                    <input type="text" name="title" placeholder="List title" class="new-list-form__input">
+                    <button class="new-list-form__button">Add</button>
                 </form>
             </article>
             <dialog class="new-task">
-                <h2>Add task</h2>
+                <h2 class="new-task__title">Add task</h2>
                 <form class="new-task__form">
-                    <label>
+                    <label class="new-task__label">
                         Title
-                        <input type="text" name="title">
+                        <input type="text" name="title" class="new-task__input" required>
                     </label>
-                    <label>
+                    <label class="new-task__label">
                         Description
-                        <textarea name="description" rows="5"></textarea>
+                        <textarea name="description" rows="5" class="new-task__input"></textarea>
                     </label>
-                    <label>
+                    <label class="new-task__label">
                         Due date
-                        <input type="datetime-local" name="duedate">
+                        <input type="datetime-local" name="duedate" class="new-task__input">
                     </label>
                     <button>Save</button>
                     <button type="button" class="new-task__cancel secondary">Cancel</button>
