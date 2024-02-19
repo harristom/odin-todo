@@ -3,30 +3,42 @@ import Task from "./Task.js";
 
 function makeList(list) {
     // Make list element
-    const article = document.querySelector('#list-template').content.cloneNode(true).firstElementChild;
-    article.querySelector('.list__title').textContent = list.title;
+    const clone = document.querySelector('#list-template').content.cloneNode(true);
+    const listCard = clone.querySelector('.list');
+    listCard.querySelector('.list__title').textContent = list.title;
     // Add tasks
     for (const task of list.tasks) {
         const li = makeTask(task);
-        article.querySelector('.list__list').append(li);
+        listCard.querySelector('.list__list').append(li);
     }
-    // Add event listeners for new task
-    const addBtn = article.querySelector('.list__add-button');
-    addBtn.addEventListener('click', e => {
-        const dialog = document.querySelector('.new-task');
-        dialog.article = article;
-        dialog.showModal()
-    });
+    // Add event listeners for new task button
+    const addBtn = listCard.querySelector('.list__add-button');
+    addBtn.addEventListener('click', e => listCard.querySelector('.new-task').showModal());
     addBtn.addEventListener('dragenter', dragEnterBtn);
+    // Add event listeners for new task form
+    listCard.querySelector('.new-task__form').addEventListener('submit', submitNewTask);
+    listCard.querySelector('.new-task__cancel').addEventListener('click', e => e.currentTarget.closest('.new-task').close());
+    listCard.querySelector('.new-task').addEventListener('click', clickAwayDialog);
+    listCard.querySelector('.new-task').addEventListener('close', () => listCard.querySelector('.new-task__form').reset());
+    // Restrict due date to be in future
+    listCard.querySelector('.new-task__form [name="duedate"]').setAttribute('min', new Date().toLocaleString('sv').replace(' ', 'T').slice(0, -3));
     // Store list object ref with element
-    article.list = list;
-    return article;
+    listCard.list = list;
+    return listCard;
+}
+
+function clickAwayDialog(e) {
+    // Closes a dialog when there is a click outside the dialog
+    if (e.target != e.currentTarget) return;
+    const { top, left, bottom, right } = e.currentTarget.getBoundingClientRect();
+    if (e.y > bottom || e.y < top || e.x < left || e.x > right) e.currentTarget.close();
 }
 
 function submitNewTask(e) {
+    // Handle new task form submission
     e.preventDefault();
     const form = e.currentTarget;
-    const article = form.closest('dialog').article;
+    const listCard = form.closest('.list');
     // Create task object
     const task = new Task(
         form.querySelector('[name=title]').value,
@@ -34,24 +46,26 @@ function submitNewTask(e) {
         new Date(form.querySelector('[name=duedate]').value)
     );
     // Add to list object
-    const list = article.list;
-    list.addTasks(task);
+    const list = listCard.list;
+    list.insertTask(task);
     // Add to list in UI
     const li = makeTask(task);
-    article.querySelector('.list__list').append(li);
+    listCard.querySelector('.list__list').append(li);
     // Close form
     form.reset();
-    form.closest('dialog').close();
+    form.closest('.new-task').close();
 }
 
 function makeTask(task) {
     // Create task element
-    const li = document.querySelector('#task-template').content.cloneNode(true).firstElementChild;
+    const clone = document.querySelector('#task-template').content.cloneNode(true);
+    const li = clone.querySelector('.task');
     li.querySelector('.task__title').textContent = task.title;
     // Create dialog for task details
     li.querySelector('.task__dialog-title').textContent = task.title;
-    li.querySelector('.task__dialog-description').textContent = task.description ?? '...';
-    li.querySelector('.task__dialog-close').addEventListener('click', e => e.currentTarget.closest('dialog').close());
+    li.querySelector('.task__dialog-description').textContent = task.description;
+    li.querySelector('.task__dialog-close').addEventListener('click', e => e.currentTarget.closest('.task__dialog').close());
+    li.querySelector('.task__dialog').addEventListener('click', clickAwayDialog);
     // Open dialog when task clicked
     li.querySelector('.task__title').addEventListener('click', e => {
         e.preventDefault();
@@ -79,6 +93,7 @@ function dragStart(e) {
 }
 
 function dragOverTask(e) {
+    // Handle dragover of a task element
     console.log('dragover');
     const dragged = document.getElementById('dragged');
     if (dragged == this) return;
@@ -96,6 +111,7 @@ function dragOverTask(e) {
 }
 
 function dragEnterBtn(e) {
+    // Handle dragenter of the new task button
     console.log('dragenter btn');
     const dragged = document.getElementById('dragged');
     const listEl = this.closest('.list').querySelector('.list__list');
@@ -130,10 +146,6 @@ document.querySelector('#new-list-form').addEventListener('submit', (e) => {
     form.reset();
 });
 
-// Add event listeners for new task form
-document.querySelector('.new-task__form').addEventListener('submit', submitNewTask);
-document.querySelector('.new-task__cancel').addEventListener('click', e => e.currentTarget.closest('dialog').close());
-
 // Create some sample tasks
 const list = new List("List 1");
 list.addTasks(
@@ -143,7 +155,7 @@ list.addTasks(
     new Task('Destroy the world')
 );
 
-const list2 = new List("List 2");
+// const list2 = new List("List 2");
 // list2.addTasks(
 //     new Task('Buy stamps'),
 //     new Task('Call John'),
@@ -153,11 +165,6 @@ const list2 = new List("List 2");
 
 // Add the example list to the page
 document.querySelector('#new-list').before(makeList(list));
-document.querySelector('#new-list').before(makeList(list2));
-
-// Restrict due date to be in future
-document.querySelectorAll('[name="duedate"]').forEach(datetimeInput => {
-    datetimeInput.setAttribute('min', new Date().toLocaleString('sv').replace(' ', 'T').slice(0, -3));
-});
+// document.querySelector('#new-list').before(makeList(list2));
 
 // TODO: Allow deleting items

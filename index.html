@@ -23,6 +23,25 @@
                 <ol class="list__list">
                 </ol>
                 <button type="button" class="list__add-button list__item input">New task</button>
+                <dialog class="new-task">
+                    <h2 class="new-task__title">Add task</h2>
+                    <form class="new-task__form">
+                        <label class="new-task__label">
+                            Title
+                            <input type="text" name="title" class="new-task__input" required>
+                        </label>
+                        <label class="new-task__label">
+                            Description
+                            <textarea name="description" rows="5" class="new-task__input"></textarea>
+                        </label>
+                        <label class="new-task__label">
+                            Due date
+                            <input type="datetime-local" name="duedate" class="new-task__input">
+                        </label>
+                        <button>Save</button>
+                        <button type="button" class="new-task__cancel secondary">Cancel</button>
+                    </form>
+                </dialog>
             </article>
         </template>
         <template id="task-template">
@@ -45,25 +64,6 @@
                     <button class="new-list-form__button">Add</button>
                 </form>
             </article>
-            <dialog class="new-task">
-                <h2 class="new-task__title">Add task</h2>
-                <form class="new-task__form">
-                    <label class="new-task__label">
-                        Title
-                        <input type="text" name="title" class="new-task__input" required>
-                    </label>
-                    <label class="new-task__label">
-                        Description
-                        <textarea name="description" rows="5" class="new-task__input"></textarea>
-                    </label>
-                    <label class="new-task__label">
-                        Due date
-                        <input type="datetime-local" name="duedate" class="new-task__input">
-                    </label>
-                    <button>Save</button>
-                    <button type="button" class="new-task__cancel secondary">Cancel</button>
-                </form>
-            </dialog>
         </section>
     </main>
     <footer>
