@@ -8,11 +8,11 @@
     --text-color: rgb(30, 38, 49);
     --placeholder-text-color: grey;
     --list-bg: rgb(242, 242, 243);
+    --max-width: 1200px;
 }
 
 html {
     height: 100%;
-    overflow: hidden;
 }
 
 body {
@@ -20,13 +20,27 @@ body {
     background-color: white;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     min-height: 100%;
-    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    width: 100%;
+    max-width: var(--max-width);
     margin: 0 auto;
-    padding-inline: 10px;
+    flex-grow: 1;
+    /* Allows children to be 100% height */
+    flex-basis: 0;
 }
 
 header {
-    margin-block: 20px;
+    padding: 20px max(10px, calc((100% - var(--max-width)) / 2 - 20px));
+    border-block-end: 1px solid rgb(194, 194, 194);
+}
+
+footer {
+    padding: 20px 10px;
+    text-align: center;
 }
 
 input,
@@ -86,6 +100,9 @@ dialog {
     align-items: start;
     flex-wrap: wrap;
     gap: 10px;
+    padding: 10px;
+    background: rgb(171, 223, 171);
+    height: 100%;
 }
 
 #new-list-form {
@@ -93,6 +110,7 @@ dialog {
         flex-grow: 1;
         min-width: 3em;
     }
+
     display: flex;
     gap: 5px;
 }
@@ -172,6 +190,10 @@ dialog {
     background-color: var(--color);
     border-color: var(--color);
     color: var(--color);
+
+    * {
+        pointer-events: none;
+    }
 }
 
 @media screen and (min-width: 600px) {
@@ -184,6 +206,19 @@ dialog {
 
     dialog {
         min-width: 500px;
+    }
+
+    main {
+        padding: 10px;
+    }
+
+    header {
+        margin-block-end: 20px;
+    }
+
+    #lists {
+        border-radius: 30px;
+        padding: 20px;
     }
 
 }
