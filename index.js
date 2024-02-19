@@ -11,11 +11,13 @@ function makeList(list) {
         article.querySelector('.list__list').append(li);
     }
     // Add event listeners for new task
-    article.querySelector('.list__add-button').addEventListener('click', e => {
+    const addBtn = article.querySelector('.list__add-button');
+    addBtn.addEventListener('click', e => {
         const dialog = document.querySelector('.new-task');
         dialog.article = article;
         dialog.showModal()
     });
+    addBtn.addEventListener('dragenter', dragEnterBtn);
     // Store list object ref with element
     article.list = list;
     return article;
@@ -60,7 +62,7 @@ function makeTask(task) {
     handle.addEventListener('pointerdown', () => li.setAttribute('draggable', 'true'));
     handle.addEventListener('pointerup', () => li.removeAttribute('draggable'));
     li.addEventListener('dragstart', dragStart);
-    li.addEventListener('dragover', dragOver);
+    li.addEventListener('dragover', dragOverTask);
     li.addEventListener('dragend', dragEnd);
     li.addEventListener('drop', e => e.preventDefault());
     // Store task object ref with element
@@ -76,10 +78,10 @@ function dragStart(e) {
     });
 }
 
-function dragOver(e) {
-    // TODO: Add dropzone in empty lists
+function dragOverTask(e) {
     console.log('dragover');
     const dragged = document.getElementById('dragged');
+    if (dragged == this) return;
     // Don't move anything down until the mouse will still be positioned over the dropzone after swapping
     // (otherwise we will be entering this dropzone again and keep swapping the elements infinitely)
     if (this.getBoundingClientRect().height - dragged.getBoundingClientRect().height > e.offsetY) {
@@ -91,6 +93,13 @@ function dragOver(e) {
     } else {
         this.after(dragged);
     }
+}
+
+function dragEnterBtn(e) {
+    console.log('dragenter btn');
+    const dragged = document.getElementById('dragged');
+    const listEl = this.closest('.list').querySelector('.list__list');
+    if (listEl.lastElementChild != dragged) listEl.append(dragged);
 }
 
 function dragEnd(e) {
@@ -130,12 +139,21 @@ const list = new List("List 1");
 list.addTasks(
     new Task('Wash the car', 'scrub scrub'),
     new Task('Mend the bike'),
+    // new Task('Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis autem esse distinctio dicta officiis, nulla possimus dolores consequuntur repudiandae officia?'),
     new Task('Destroy the world')
 );
 
+const list2 = new List("List 2");
+// list2.addTasks(
+//     new Task('Buy stamps'),
+//     new Task('Call John'),
+//     new Task('Walk the dog'),
+//     new Task('Prepare for the apocalypse')
+// );
+
 // Add the example list to the page
-const listEl = makeList(list);
-document.querySelector('#new-list').before(listEl);
+document.querySelector('#new-list').before(makeList(list));
+document.querySelector('#new-list').before(makeList(list2));
 
 // Restrict due date to be in future
 document.querySelectorAll('[name="duedate"]').forEach(datetimeInput => {

@@ -98,6 +98,7 @@ dialog {
 #lists {
     display: flex;
     align-items: start;
+    align-content: start;
     flex-wrap: wrap;
     gap: 10px;
     padding: 10px;
