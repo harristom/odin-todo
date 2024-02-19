@@ -36,7 +36,6 @@ function submitNewTask(e) {
     list.addTasks(task);
     // Add to list in UI
     const li = makeTask(task);
-    li.classList.add('animate__animated', 'animate__fadeInUp', 'animate__fast');
     article.querySelector('.list__list').append(li);
     // Close form
     form.reset();
@@ -61,24 +60,31 @@ function makeTask(task) {
     handle.addEventListener('pointerdown', () => li.setAttribute('draggable', 'true'));
     handle.addEventListener('pointerup', () => li.removeAttribute('draggable'));
     li.addEventListener('dragstart', dragStart);
-    li.addEventListener('dragenter', dragEnter);
+    li.addEventListener('dragover', dragOver);
     li.addEventListener('dragend', dragEnd);
-    li.addEventListener('drop', (e) => e.preventDefault());
-    li.addEventListener('dragover', (e) => e.preventDefault());
+    li.addEventListener('drop', e => e.preventDefault());
     // Store task object ref with element
     li.task = task;
     return li;
 }
 
 function dragStart(e) {
+    console.log('dragstart');
     // Delay making any change to drag item appearance until after the browser has taken a picture of the element
     requestAnimationFrame(() => {
         this.id = 'dragged';
     });
 }
 
-function dragEnter(e) {
+function dragOver(e) {
+    // TODO: Add dropzone in empty lists
+    console.log('dragover');
     const dragged = document.getElementById('dragged');
+    // Don't move anything down until the mouse will still be positioned over the dropzone after swapping
+    // (otherwise we will be entering this dropzone again and keep swapping the elements infinitely)
+    if (this.getBoundingClientRect().height - dragged.getBoundingClientRect().height > e.offsetY) {
+        return;
+    }
     const movingUp = this.getBoundingClientRect().top < dragged.getBoundingClientRect().top;
     if (movingUp) {
         this.before(dragged);
@@ -88,7 +94,7 @@ function dragEnter(e) {
 }
 
 function dragEnd(e) {
-    // TODO Allow moving to a different list
+    console.log('dragend');
     const dragged = document.getElementById('dragged');
     const position = [...this.parentElement.children].indexOf(this);
     dragged.task.moveToList(this.closest('.list').list, position);
@@ -111,7 +117,6 @@ document.querySelector('#new-list-form').addEventListener('submit', (e) => {
     // Create list element
     const listEl = makeList(list);
     // Draw list
-    listEl.classList.add('animate__animated', 'animate__fadeInUp');
     document.querySelector('#new-list').before(listEl);
     form.reset();
 });
@@ -136,3 +141,5 @@ document.querySelector('#new-list').before(listEl);
 document.querySelectorAll('[name="duedate"]').forEach(datetimeInput => {
     datetimeInput.setAttribute('min', new Date().toLocaleString('sv').replace(' ', 'T').slice(0, -3));
 });
+
+// TODO: Allow deleting items
