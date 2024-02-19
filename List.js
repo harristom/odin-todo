@@ -10,10 +10,12 @@ export default class List {
     }
 
     addTasks(...tasks) {
-        for (const task of tasks) {
-            task.list = this;
-            if (!this.#tasks.includes(task)) this.#tasks.push(task);
-        }
+        for (const task of tasks) this.insertTask(task);
+    }
+
+    insertTask(task, pos = this.#tasks.length) {
+        this.#tasks.splice(pos, 0, task);
+        task.list = this;
     }
 
     removeTask(task) {

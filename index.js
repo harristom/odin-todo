@@ -88,7 +88,15 @@ function dragEnter(e) {
 }
 
 function dragEnd(e) {
+    // TODO Allow moving to a different list
     const dragged = document.getElementById('dragged');
+    const position = [...this.parentElement.children].indexOf(this);
+    dragged.task.moveToList(this.closest('.list').list, position);
+    document.querySelectorAll('.list__list').forEach(ol => {
+        const list = ol.closest('.list');
+        if (!list) return;
+        console.log(list.list);
+    });
     dragged.removeAttribute('id');
     dragged.removeAttribute('draggable');
 }

@@ -4,13 +4,19 @@ export default class Task {
     title;
     description;
     dueDate;
-    priority;
     completed = false;
 
     constructor(title, description, dueDate) {
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
+    }
+
+    moveToList(list, priority) {
+        const oldList = this.list;
+        const newList = list;
+        oldList.removeTask(this);
+        newList.insertTask(this, priority);
     }
 
 }
