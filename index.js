@@ -86,6 +86,8 @@ function makeTask(task) {
 
 function dragStart(e) {
     console.log('dragstart');
+    // Required in some browsers (e.g. Epiphany)
+    e.dataTransfer.setData('text/plain', 'test');
     // Delay making any change to drag item appearance until after the browser has taken a picture of the element
     requestAnimationFrame(() => {
         this.id = 'dragged';
