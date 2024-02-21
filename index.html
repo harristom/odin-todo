@@ -53,11 +53,15 @@
         <template id="task-template">
             <li class="task list__item">
                 <a href="" class="task__title" draggable="false"></a>
+                <div class="task__due-date"><i class="far fa-calendar fa-sm"></i><span class="task__due-date-value"></span></div>
                 <div class="task__handle">
                     <i class="fa-solid fa-grip-vertical fa-sm"></i>
                 </div>
                 <dialog class="task__dialog">
-                    <h2 class="task__dialog-title"></h2>
+                    <hgroup>
+                        <h2 class="task__dialog-title"></h2>
+                        <small class="task__dialog-due-date"></small>
+                    </hgroup>
                     <p class="task__dialog-description"></p>
                     <button type="button" class="task__dialog-close">Close</button>
                 </dialog>

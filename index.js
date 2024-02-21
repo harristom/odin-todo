@@ -87,9 +87,12 @@ function makeTask(task) {
     const clone = document.querySelector('#task-template').content.cloneNode(true);
     const li = clone.querySelector('.task');
     li.querySelector('.task__title').textContent = task.title;
+    li.querySelector('.task__due-date-value').textContent = task.dueDate?.toLocaleString(undefined, { day: 'numeric', month: 'numeric' });
+    if (task.dueDate < new Date()) li.classList.add('task--overdue');
     // Create dialog for task details
     li.querySelector('.task__dialog-title').textContent = task.title;
     li.querySelector('.task__dialog-description').textContent = task.description;
+    li.querySelector('.task__dialog-due-date').textContent = task.dueDate?.toLocaleString(undefined, { dateStyle: 'long', timeStyle: 'short' });
     li.querySelector('.task__dialog-close').addEventListener('click', e => e.currentTarget.closest('.task__dialog').close());
     li.querySelector('.task__dialog').addEventListener('click', clickAwayDialog);
     // Open dialog when task clicked
@@ -179,8 +182,9 @@ const list = new List("List 1");
 list.addTasks(
     new Task('Wash the car', 'scrub scrub'),
     new Task('Mend the bike'),
-    // new Task('Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis autem esse distinctio dicta officiis, nulla possimus dolores consequuntur repudiandae officia?'),
-    new Task('Destroy the world')
+    new Task('Write a very long task to show how a task card looks when the title is quite long and wraps over several lines', undefined, new Date('2030-01-01 12:00')),
+    new Task('Cook the turkey', '3 hours at 180 °C', new Date('2030-12-25 15:00')),
+    new Task('Destroy the world', undefined, new Date('2012-12-21 15:00'))
 );
 
 // const list2 = new List("List 2");
@@ -195,8 +199,9 @@ list.addTasks(
 document.querySelector('#new-list').before(makeList(list));
 // document.querySelector('#new-list').before(makeList(list2));
 
-// TODO: Allow deleting items
-// TODO: Move list order
+// TODO: Mark task complete
+// TODO: Delete task
 // TODO: Delete list
-// TODO: Edit task details
-// TODO: Edit list name
+// TODO: Edit task
+// TODO: Local storage
+// TODO: Move list
