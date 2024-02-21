@@ -5,7 +5,12 @@ function makeList(list) {
     // Make list element
     const clone = document.querySelector('#list-template').content.cloneNode(true);
     const listCard = clone.querySelector('.list');
-    listCard.querySelector('.list__title').textContent = list.title;
+    listCard.querySelector('.list__title-value').textContent = list.title;
+    // Add event listener to edit title
+    const form = listCard.querySelector('.list__title-form');
+    listCard.querySelector('.list__title-btn').addEventListener('click', () => toggleTitleInput(listCard));
+    form.querySelector('.list__title-input').addEventListener('blur', () => form.requestSubmit());
+    form.addEventListener('submit', submitTitle);
     // Add tasks
     for (const task of list.tasks) {
         const li = makeTask(task);
@@ -25,6 +30,27 @@ function makeList(list) {
     // Store list object ref with element
     listCard.list = list;
     return listCard;
+}
+
+function submitTitle(e) {
+    e.preventDefault();
+    const form = this;
+    const input = form.querySelector('.list__title-input');
+    const listCard = form.closest('.list');
+    const titleValEl = listCard.querySelector('.list__title-value');
+    listCard.list.title = input.value;
+    titleValEl.textContent = listCard.list.title;
+    toggleTitleInput(listCard);
+}
+
+function toggleTitleInput(listCard) {
+    const title = listCard.querySelector('.list__title');
+    const form = listCard.querySelector('.list__title-form');
+    const input = listCard.querySelector('.list__title-input');
+    input.value = title.textContent;
+    form.style.display = form.style.display == 'none' ? '' : 'none';
+    title.style.display = title.style.display == 'none' ? '' : 'none';
+    document.activeElement == input ? input.blur() : input.focus();
 }
 
 function clickAwayDialog(e) {
@@ -170,3 +196,7 @@ document.querySelector('#new-list').before(makeList(list));
 // document.querySelector('#new-list').before(makeList(list2));
 
 // TODO: Allow deleting items
+// TODO: Move list order
+// TODO: Delete list
+// TODO: Edit task details
+// TODO: Edit list name

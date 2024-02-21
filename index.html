@@ -19,7 +19,13 @@
     <main>
         <template id="list-template">
             <article class="list">
-                <h2 class="list__title"></h2>
+                <hgroup class="list__header">
+                    <h2 class="list__title"><span class="list__title-value"></span><i class="fa-solid fa-pencil list__edit-icon"></i></h2>
+                    <button type="button" class="list__title-btn" aria-label="Edit title"></button>
+                    <form class="list__title-form" style="display: none;">
+                        <input type="text" class="list__title-input" aria-label="List title">
+                    </form>
+                </hgroup>
                 <ol class="list__list">
                 </ol>
                 <button type="button" class="list__add-button list__item input">New task</button>

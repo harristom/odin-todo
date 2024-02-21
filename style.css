@@ -121,10 +121,60 @@ dialog {
     background-color: var(--list-bg);
     padding: 20px;
     border-radius: 10px;
+    .list {
+        max-width: 300px;
+        box-shadow: 0px 0px 3px rgb(0 0 0 / 70%);
+    }
+}
+
+.list__header {
+    position: relative;
+    margin-bottom: 10px;
+    &:hover {
+        .list__title {
+            border-bottom-color: rgba(128, 128, 128, 0.5);
+        }
+        .list__edit-icon {
+            visibility: visible;
+        }
+    }
+}
+
+.list__title-btn,
+.list__title-btn:hover {
+    position: absolute;
+    inset: 0px;
+    color: transparent;
+    background-color: transparent;
+    margin: 0px;
+    padding: 0px;
+    cursor: text;
+}
+
+.list__edit-icon {
+    font-size: 1rem;
+    color: grey;
+    visibility: hidden;
+    margin-inline-start: 0.5em;
 }
 
 .list__title {
-    margin-bottom: 10px;
+    border: 1px solid transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.list__title,
+.list__title-input {
+    padding: 5px;
+    font-size: 1.5em;
+    font-weight: 700;
+}
+
+.list__title-input {
+    height: 100%;
+    width: 100%;
 }
 
 .list__list {
