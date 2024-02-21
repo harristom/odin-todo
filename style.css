@@ -63,13 +63,13 @@ textarea {
 button,
 .button {
     cursor: pointer;
-    background: rgb(0, 140, 255);
+    background: rgb(0, 113, 206);
     color: white;
     border: none;
     font-size: 0.95em;
 
     &:hover {
-        background: rgb(51, 163, 255);
+        background: rgb(0, 123, 216);
     }
 }
 
@@ -102,7 +102,7 @@ dialog {
     flex-wrap: wrap;
     gap: 10px;
     padding: 10px;
-    background: rgb(171, 223, 171);
+    background: rgb(46, 80, 78);
     height: 100%;
 }
 
