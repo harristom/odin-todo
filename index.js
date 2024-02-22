@@ -65,11 +65,12 @@ function submitNewTask(e) {
     e.preventDefault();
     const form = e.currentTarget;
     const listCard = form.closest('.list');
+    const dateVal = form.querySelector('[name=duedate]').value;
     // Create task object
     const task = new Task(
         form.querySelector('[name=title]').value,
         form.querySelector('[name=description]').value,
-        new Date(form.querySelector('[name=duedate]').value)
+        dateVal ? new Date(dateVal) : undefined
     );
     // Add to list object
     const list = listCard.list;
@@ -116,7 +117,7 @@ function makeTask(task) {
 function dragStart(e) {
     console.log('dragstart');
     // Required in some browsers (e.g. Epiphany)
-    e.dataTransfer.setData('text/plain', 'test');
+    e.dataTransfer.setData('text/plain', '');
     // Delay making any change to drag item appearance until after the browser has taken a picture of the element
     requestAnimationFrame(() => {
         this.id = 'dragged';
