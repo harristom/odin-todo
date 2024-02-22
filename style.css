@@ -196,18 +196,31 @@ dialog {
 .task {
     display: flex;
     align-items: baseline;
-    gap: 5px;
+    gap: 8px;
     user-select: none;
+    &:has(.task__checkbox:checked) {
+        filter:
+            grayscale(1);
+        opacity: 0.6;
+    }
 }
 
-.task--overdue {
+.task--overdue:has(.task__checkbox:not(:checked)) {
     background-color: hsl(0, 100%, 91%);
+}
+
+
+.task__checkbox {
+    align-self: center;
 }
 
 .task__title {
     flex-grow: 1;
     color: inherit;
     text-decoration: none;
+    .task:has(.task__checkbox:checked) & {
+        text-decoration: line-through;
+    }
 }
 
 .task__due-date {

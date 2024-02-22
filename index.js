@@ -90,6 +90,8 @@ function makeTask(task) {
     li.querySelector('.task__title').textContent = task.title;
     li.querySelector('.task__due-date-value').textContent = task.dueDate?.toLocaleString(undefined, { day: 'numeric', month: 'numeric' });
     if (task.dueDate < new Date()) li.classList.add('task--overdue');
+    li.querySelector('.task__checkbox').value = task.completed;
+    li.querySelector('.task__checkbox').addEventListener('change', e => task.completed = !task.completed);
     // Create dialog for task details
     li.querySelector('.task__dialog-title').textContent = task.title;
     li.querySelector('.task__dialog-description').textContent = task.description;
@@ -200,7 +202,6 @@ list.addTasks(
 document.querySelector('#new-list').before(makeList(list));
 // document.querySelector('#new-list').before(makeList(list2));
 
-// TODO: Mark task complete
 // TODO: Delete task
 // TODO: Delete list
 // TODO: Edit task
