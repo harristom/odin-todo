@@ -19,4 +19,8 @@ export default class Task {
         newList.insertTask(this, priority);
     }
 
+    delete() {
+        this.list.removeTask(this);
+    }
+
 }

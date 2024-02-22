@@ -98,6 +98,7 @@ function makeTask(task) {
     li.querySelector('.task__dialog-due-date').textContent = task.dueDate?.toLocaleString(undefined, { dateStyle: 'long', timeStyle: 'short' });
     li.querySelector('.task__dialog-close').addEventListener('click', e => e.currentTarget.closest('.task__dialog').close());
     li.querySelector('.task__dialog').addEventListener('click', clickAwayDialog);
+    li.querySelector('.task__dialog-delete').addEventListener('click', confirmDelete);
     // Open dialog when task clicked
     li.querySelector('.task__title').addEventListener('click', e => {
         e.preventDefault();
@@ -114,6 +115,24 @@ function makeTask(task) {
     // Store task object ref with element
     li.task = task;
     return li;
+}
+
+function confirmDelete() {
+    const taskEl = this.closest('.task');
+    taskEl.dataset.delete = true;
+    document.querySelector('#delete-confirmation').showModal();
+}
+
+function deleteTask() {
+    const taskEl = document.querySelector('.task[data-delete=true]');
+    taskEl.task.delete();
+    taskEl.remove();
+    document.querySelector('#delete-confirmation').close();
+}
+
+function cancelDelete() {
+    document.querySelector('.task[data-delete=true]').removeAttribute('data-delete');
+    document.querySelector('#delete-confirmation').close();
 }
 
 function dragStart(e) {
@@ -180,6 +199,10 @@ document.querySelector('#new-list-form').addEventListener('submit', (e) => {
     form.reset();
 });
 
+// Add event listeners for delete confirmation dialog
+document.querySelector('.delete-confirmation__yes').addEventListener('click', deleteTask);
+document.querySelector('.delete-confirmation__no').addEventListener('click', cancelDelete);
+
 // Create some sample tasks
 const list = new List("List 1");
 list.addTasks(
@@ -204,6 +227,6 @@ document.querySelector('#new-list').before(makeList(list));
 
 // TODO: Delete task
 // TODO: Delete list
-// TODO: Edit task
 // TODO: Local storage
+// TODO: Edit task
 // TODO: Move list
