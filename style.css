@@ -129,63 +129,97 @@ dialog {
     background-color: var(--list-bg);
     padding: 20px;
     border-radius: 10px;
-
-    .list {
-        max-width: 300px;
-        box-shadow: 0px 0px 3px rgb(0 0 0 / 70%);
-    }
+    box-shadow: 0px 0px 3px rgb(0 0 0 / 70%);
 }
 
 .list__header {
-    position: relative;
+    display: flex;
     margin-bottom: 10px;
+}
+
+.list__title-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: last baseline;
+    flex-grow: 1;
+    border-bottom: 1px solid transparent;
+    cursor: text;
+    padding-bottom: 5px;
 
     &:hover {
-        & .list__title {
-            border-bottom-color: rgba(128, 128, 128, 0.5);
-        }
-
-        & .list__edit-icon {
-            visibility: visible;
-        }
+        border-bottom: 1px solid rgb(197, 197, 197);
     }
 }
 
-.list__title-btn,
-.list__title-btn:hover {
-    position: absolute;
-    inset: 0px;
-    color: transparent;
-    background-color: transparent;
-    margin: 0px;
-    padding: 0px;
-    cursor: text;
-}
-
-.list__edit-icon {
-    font-size: 1rem;
-    color: grey;
-    visibility: hidden;
-    margin-inline-start: 0.5em;
-}
-
 .list__title {
-    border: 1px solid transparent;
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
+    word-break: break-word;
+    hyphens: auto;
 }
 
 .list__title,
 .list__title-input {
-    padding: 5px;
-    font-size: 1.5em;
+    font-size: 1.5rem;
     font-weight: 700;
 }
 
 .list__title-input {
-    height: 100%;
+    padding: 5px;
+}
+
+.list__title-form,
+.list__title-input {
     width: 100%;
+}
+
+.list__edit-icon {
+    visibility: hidden;
+    color: grey;
+    font-size: 1rem;
+    margin-inline-start: 5px;
+
+    .list__title-wrapper:hover & {
+        visibility: visible;
+    }
+}
+
+.list__edit-btn,
+.list__edit-btn:hover {
+    /* Overlays the whole title to make it click to edit */
+    position: absolute;
+    inset: 0px;
+    background-color: transparent;
+    padding: 0px;
+    cursor: inherit;
+}
+
+.list__delete-btn {
+    visibility: hidden;
+    align-self: start;
+    margin-block-start: 5px;
+    margin-inline-start: 10px;
+
+    /* TODO: Is the delete button acccessible for screen readers and keyboard-only users? */
+    .list__header:is(:focus-within, :hover) &,
+    .list:has(.task:first-of-type:focus-within) & {
+        visibility: visible;
+    }
+}
+
+.list__header.edit {
+    .list__title-wrapper {
+        display: none;
+    }
+
+    .list__delete-btn {
+        display: none;
+    }
+}
+
+.list__header:not(.edit) {
+    .list__title-form {
+        display: none;
+    }
 }
 
 .list__list {
@@ -239,7 +273,7 @@ dialog {
     border-radius: 5px;
     color: white;
     font-size: 0.85em;
-    padding: 1px 3px;
+    padding: 1px 5px;
 
     &:has(.task__due-date-value:empty) {
         display: none;

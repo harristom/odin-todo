@@ -20,9 +20,15 @@
         <template id="list-template">
             <article class="list">
                 <hgroup class="list__header">
-                    <h2 class="list__title"><span class="list__title-value"></span><i class="fa-solid fa-pencil list__edit-icon"></i></h2>
-                    <button type="button" class="list__title-btn" aria-label="Edit title"></button>
-                    <form class="list__title-form" style="display: none;">
+                    <div class="list__title-wrapper">
+                        <h2 class="list__title"></h2>
+                        <i class="fa-solid fa-pencil list__edit-icon"></i>
+                        <button type="button" class="list__edit-btn" aria-label="Edit list title"></button>
+                    </div>
+                    <button type="button" class="list__delete-btn button--danger" aria-label="Delete list">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                    <form class="list__title-form">
                         <input type="text" class="list__title-input" aria-label="List title">
                     </form>
                 </hgroup>
@@ -79,9 +85,16 @@
                 </form>
             </article>
         </section>
-        <dialog id="delete-confirmation" class="delete-confirmation">
+        <dialog id="delete-task-confirmation" class="delete-confirmation">
             <h2>Delete?</h2>
             <p>Are you sure you want to delete this task?</p>
+            <button type="button" class="delete-confirmation__yes button--danger">Yes</button>
+            <button type="button" class="delete-confirmation__no">No</button>
+        </dialog>
+        <dialog id="delete-list-confirmation" class="delete-confirmation">
+            <h2>Delete?</h2>
+            <p>Deleting this list will delete all tasks within it.</p>
+            <p>Are you sure you want to delete this list?</p>
             <button type="button" class="delete-confirmation__yes button--danger">Yes</button>
             <button type="button" class="delete-confirmation__no">No</button>
         </dialog>

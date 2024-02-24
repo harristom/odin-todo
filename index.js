@@ -5,12 +5,14 @@ function makeList(list) {
     // Make list element
     const clone = document.querySelector('#list-template').content.cloneNode(true);
     const listCard = clone.querySelector('.list');
-    listCard.querySelector('.list__title-value').textContent = list.title;
+    listCard.querySelector('.list__title').textContent = list.title;
     // Add event listener to edit title
     const form = listCard.querySelector('.list__title-form');
-    listCard.querySelector('.list__title-btn').addEventListener('click', () => toggleTitleInput(listCard));
+    listCard.querySelector('.list__edit-btn').addEventListener('click', () => toggleTitleInput(listCard));
     form.querySelector('.list__title-input').addEventListener('blur', () => form.requestSubmit());
     form.addEventListener('submit', submitTitle);
+    // Add event listener to delete list
+    listCard.querySelector('.list__delete-btn').addEventListener('click', confirmListDelete);
     // Add tasks
     for (const task of list.tasks) {
         const li = makeTask(task);
@@ -37,7 +39,7 @@ function submitTitle(e) {
     const form = this;
     const input = form.querySelector('.list__title-input');
     const listCard = form.closest('.list');
-    const titleValEl = listCard.querySelector('.list__title-value');
+    const titleValEl = listCard.querySelector('.list__title');
     listCard.list.title = input.value;
     titleValEl.textContent = listCard.list.title;
     toggleTitleInput(listCard);
@@ -45,11 +47,9 @@ function submitTitle(e) {
 
 function toggleTitleInput(listCard) {
     const title = listCard.querySelector('.list__title');
-    const form = listCard.querySelector('.list__title-form');
     const input = listCard.querySelector('.list__title-input');
     input.value = title.textContent;
-    form.style.display = form.style.display == 'none' ? '' : 'none';
-    title.style.display = title.style.display == 'none' ? '' : 'none';
+    listCard.querySelector('.list__header').classList.toggle('edit');
     document.activeElement == input ? input.blur() : input.focus();
 }
 
@@ -98,7 +98,7 @@ function makeTask(task) {
     li.querySelector('.task__dialog-due-date').textContent = task.dueDate?.toLocaleString(undefined, { dateStyle: 'long', timeStyle: 'short' });
     li.querySelector('.task__dialog-close').addEventListener('click', e => e.currentTarget.closest('.task__dialog').close());
     li.querySelector('.task__dialog').addEventListener('click', clickAwayDialog);
-    li.querySelector('.task__dialog-delete').addEventListener('click', confirmDelete);
+    li.querySelector('.task__dialog-delete').addEventListener('click', confirmTaskDelete);
     // Open dialog when task clicked
     li.querySelector('.task__title').addEventListener('click', e => {
         e.preventDefault();
@@ -117,22 +117,39 @@ function makeTask(task) {
     return li;
 }
 
-function confirmDelete() {
+function confirmTaskDelete() {
     const taskEl = this.closest('.task');
     taskEl.dataset.delete = true;
-    document.querySelector('#delete-confirmation').showModal();
+    document.querySelector('#delete-task-confirmation').showModal();
 }
 
 function deleteTask() {
     const taskEl = document.querySelector('.task[data-delete=true]');
     taskEl.task.delete();
     taskEl.remove();
-    document.querySelector('#delete-confirmation').close();
+    document.querySelector('#delete-task-confirmation').close();
 }
 
-function cancelDelete() {
+function cancelTaskDelete() {
     document.querySelector('.task[data-delete=true]').removeAttribute('data-delete');
-    document.querySelector('#delete-confirmation').close();
+    document.querySelector('#delete-task-confirmation').close();
+}
+
+function confirmListDelete() {
+    const listEl = this.closest('.list');
+    listEl.dataset.delete = true;
+    document.querySelector('#delete-list-confirmation').showModal();
+}
+
+function deleteList() {
+    const listEl = document.querySelector('.list[data-delete=true]');
+    listEl.remove();
+    document.querySelector('#delete-list-confirmation').close();
+}
+
+function cancelListDelete() {
+    document.querySelector('.list[data-delete=true]').removeAttribute('data-delete');
+    document.querySelector('#delete-list-confirmation').close();
 }
 
 function dragStart(e) {
@@ -199,12 +216,14 @@ document.querySelector('#new-list-form').addEventListener('submit', (e) => {
     form.reset();
 });
 
-// Add event listeners for delete confirmation dialog
-document.querySelector('.delete-confirmation__yes').addEventListener('click', deleteTask);
-document.querySelector('.delete-confirmation__no').addEventListener('click', cancelDelete);
+// Add event listeners for delete confirmation dialogs
+document.querySelector('#delete-task-confirmation .delete-confirmation__yes').addEventListener('click', deleteTask);
+document.querySelector('#delete-task-confirmation .delete-confirmation__no').addEventListener('click', cancelTaskDelete);
+document.querySelector('#delete-list-confirmation .delete-confirmation__yes').addEventListener('click', deleteList);
+document.querySelector('#delete-list-confirmation .delete-confirmation__no').addEventListener('click', cancelListDelete);
 
 // Create some sample tasks
-const list = new List("List 1");
+const list = new List("My very first list");
 list.addTasks(
     new Task('Wash the car', 'scrub scrub'),
     new Task('Mend the bike'),
@@ -225,8 +244,6 @@ list.addTasks(
 document.querySelector('#new-list').before(makeList(list));
 // document.querySelector('#new-list').before(makeList(list2));
 
-// TODO: Delete task
-// TODO: Delete list
 // TODO: Local storage
 // TODO: Edit task
 // TODO: Move list
