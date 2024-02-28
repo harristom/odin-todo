@@ -77,13 +77,16 @@
                 </dialog>
             </li>
         </template>
-        <section id="lists">
-            <article id="new-list" class="list">
-                <form id="new-list-form" class="new-list-form">
-                    <input type="text" name="title" placeholder="List title" class="new-list-form__input">
-                    <button class="new-list-form__button">Add</button>
-                </form>
-            </article>
+        <section id="board">
+            <section id="lists">
+                <article id="new-list" class="list">
+                    <form id="new-list-form" class="new-list-form">
+                        <input type="text" name="title" placeholder="List title" class="new-list-form__input">
+                        <button class="new-list-form__button">Add</button>
+                    </form>
+                </article>
+            </section>
+            <button type="button" id="reset">Reset</button>
         </section>
         <dialog id="delete-task-confirmation" class="delete-confirmation">
             <h2>Delete?</h2>
