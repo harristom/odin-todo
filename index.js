@@ -22,6 +22,8 @@ function makeList(list) {
     const addBtn = listCard.querySelector('.list__add-button');
     addBtn.addEventListener('click', e => listCard.querySelector('.new-task').showModal());
     addBtn.addEventListener('dragenter', dragEnterBtn);
+    // Prevent default makes the target a valid drop zone if it isn't one otherwise
+    addBtn.addEventListener('dragover', e => e.preventDefault());
     // Add event listeners for new task form
     listCard.querySelector('.new-task__form').addEventListener('submit', submitNewTask);
     listCard.querySelector('.new-task__cancel').addEventListener('click', e => e.currentTarget.closest('.new-task').close());
@@ -191,6 +193,8 @@ function dragStart(e) {
 function dragOverTask(e) {
     // Handle dragover of a task element
     console.log('dragover');
+    // Prevent default makes the target a valid drop zone if it isn't one otherwise
+    e.preventDefault();
     const dragged = document.getElementById('dragged');
     if (dragged == this) return;
     // Don't move anything down until the mouse will still be positioned over the dropzone after swapping
