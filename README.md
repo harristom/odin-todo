@@ -1,8 +1,9 @@
+# To-da!
+_[To-da!](https://harristom.github.io/odin-todo)_ is a to-do list app written in vanilla JavaScript for [the Odin Project's Todo List exercise](https://www.theodinproject.com/lessons/node-path-javascript-todo-list).
+
 [Live demo](https://harristom.github.io/odin-todo)
 
 [![](screenshot.png)](https://harristom.github.io/odin-todo)
-
-_[To-da!](https://harristom.github.io/odin-todo)_ is a to-do list app written in vanilla JavaScript for [the Odin Project's Todo List exercise](https://www.theodinproject.com/lessons/node-path-javascript-todo-list).
 
 ## Project requirements
 In addition to the fundamental user requirements (for adding tasks, deleting them, etc.) the principle requirements of the assignment are: 
