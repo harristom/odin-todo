@@ -314,6 +314,10 @@ document.getElementById('reset').addEventListener('click', e => {
     location.reload();
 })
 
+// Quick fix for Chromium bug with pointerdown listeners
+// https://issues.chromium.org/issues/348445887
+document.querySelector('h1').addEventListener('pointerdown', () => {});
+
 // TODO: Edit task
 // TODO: Move list
 // TODO: Local storage - respond to changes made in another tab/window
